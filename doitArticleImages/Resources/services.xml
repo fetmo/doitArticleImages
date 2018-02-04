@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <service class="doitArticleImages\Services\Decoration\DecoratedProductMediaGateway"
+                 decorates="shopware_storefront.product_media_gateway"
+                 id="doit_article_images.services.decoration.decorated_product_media_gateway">
+            <argument id="doit_article_images.services.decoration.decorated_product_media_gateway.inner" type="service"/>
+            <argument id="doit_article_images.services.filter.image_filter" type="service" />
+        </service>
+
+        <service class="doitArticleImages\Services\Decoration\DecoratedVariantMediaGateway"
+                 decorates="shopware_storefront.variant_media_gateway"
+                 id="doit_article_images.services.decoration.decorated_variant_media_gateway">
+            <argument id="doit_article_images.services.decoration.decorated_variant_media_gateway.inner" type="service"/>
+            <argument id="doit_article_images.services.filter.image_filter" type="service" />
+        </service>
+
+        <service class="doitArticleImages\Services\Filter\ImageFilter"
+                 id="doit_article_images.services.filter.image_filter">
+            <argument type="service" id="db"/>
+        </service>
+
+    </services>
+</container>
