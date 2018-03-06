@@ -27,7 +27,7 @@ trait ImageHandlingTrait
         $coreReturn = $this->coreService->getList($products, $context);
 
         foreach ($coreReturn as $ordernumber => $mediaArray) {
-            $coreReturn[$ordernumber] = $this->imageFilter->filterImagesForContext($ordernumber, $mediaArray, $context);
+            $coreReturn[$ordernumber] = $this->imageFilter->filterImagesForContext($mediaArray, $context);
         }
 
         return $coreReturn;
@@ -40,7 +40,7 @@ trait ImageHandlingTrait
     {
         $coreReturn = $this->coreService->getCover($product, $context);
 
-        return $this->imageFilter->filterImagesForContext($product->getNumber(), [$coreReturn], $context);
+        return $this->imageFilter->filterImagesForContext([$coreReturn], $context);
     }
 
     /**
@@ -50,7 +50,7 @@ trait ImageHandlingTrait
     {
         $coreReturn = $this->coreService->get($product, $context);
 
-        return $this->imageFilter->filterImagesForContext($product->getNumber(), $coreReturn, $context);
+        return $this->imageFilter->filterImagesForContext($coreReturn, $context);
     }
 
     /**
@@ -65,7 +65,7 @@ trait ImageHandlingTrait
          * @var Struct\Media $mediaArray
          */
         foreach ($coreReturn as $ordernumber => $cover) {
-            $coreReturn[$ordernumber] = $this->imageFilter->filterImagesForContext($ordernumber, [$cover], $context);
+            $coreReturn[$ordernumber] = $this->imageFilter->filterImagesForContext([$cover], $context);
         }
 
         return $coreReturn;
