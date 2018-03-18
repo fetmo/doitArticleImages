@@ -5,9 +5,24 @@ namespace doitArticleImages\Services\Filter;
 
 use Shopware\Bundle\StoreFrontBundle\Struct\Media;
 use Shopware\Bundle\StoreFrontBundle\Struct\ShopContextInterface;
+use Shopware\Components\Plugin\ConfigReader;
 
-class ImageFilter
+class ImageFilter implements Filter
 {
+
+    /**
+     * @var array
+     */
+    private $config;
+
+    /**
+     * ImageFilter constructor.
+     * @param ConfigReader $configReader
+     */
+    public function __construct(ConfigReader $configReader)
+    {
+        $this->config = $configReader->getByPluginName('doitArticleImages');
+    }
 
     /**
      * @param array $images
@@ -16,7 +31,7 @@ class ImageFilter
      */
     public function filterImagesForContext(array $images, ShopContextInterface $context)
     {
-        if(($shop = $context->getShop()) !== null){
+        if (($shop = $context->getShop()) !== null) {
             $shopID = $shop->getId();
 
             foreach ($images as $key1 => $image) {
@@ -43,9 +58,9 @@ class ImageFilter
     private function hideImageForProduct(Media $media, $shopid)
     {
         $shops = $media->getAttribute('core')->get('doit_subshops');
-        $hide = true;
+        $hide = (bool)$this->config['hideOnDefault'];
 
-        if($shops !== null){
+        if ($shops !== null) {
             $shops = array_filter(explode('|', $shops));
             $hide = !in_array($shopid, $shops, false);
         }
